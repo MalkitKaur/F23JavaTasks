@@ -1,3 +1,7 @@
+package com.example.f23javatasks;
+
+import java.util.regex.Pattern;
+
 public class User{
     private String email,userName,phone;
     /**
@@ -15,9 +19,16 @@ public class User{
     public String getEmail() {
         return email;
     }
+    public static boolean isEmailValid(String email) {
+        final Pattern EMAIL_REGEX = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
+        return EMAIL_REGEX.matcher(email).matches();
+    }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (User.isEmailValid(email))
+            this.email = email;
+        else
+            throw new IllegalArgumentException("email must match RFC822 pattern");
     }
 
     public String getUserName() {
@@ -32,7 +43,7 @@ public class User{
         if(userName.matches("[A-z1-9]+"))
             this.userName = userName;
         else
-            throw new IlleagalArgumentException("username must have at least 1 character and/or number");
+            throw new IllegalArgumentException("username must have at least 1 character and/or number");
     }
 
     public String getPhone() {
